@@ -1,0 +1,10 @@
+.layout {
+    min-height: 100vh;
+}
+
+nz-sider {
+    overflow: auto;
+    height: 100%;
+    position: fixed;
+    left: 0;
+}

@@ -1,0 +1,109 @@
+<div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">{{ 'ST.BIEU_MAU.TITLE' | translate }}</h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-caption">
+            <div class="m-input-icon m-input-icon--left m-input-icon--right dropdown-search-advance pull-right">
+                <input
+                    type="text"
+                    class="form-control m-input"
+                    [placeholder]="'LB.SEARCH_PLACEHOLDER' | translate"
+                    [formControl]="searchControl"
+                />
+                <span class="m-input-icon__icon m-input-icon__icon--left">
+                    <span>
+                        <i class="la la-search"></i>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-portlet__body m-portlet-custom">
+        <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeight }">
+            <kendo-grid
+                [data]="gridView$ | async"
+                [pageSize]="gridState.take"
+                [skip]="gridState.skip"
+                [loading]="loading"
+                [resizable]="true"
+                [columnMenu]="false"
+                [sortable]="true"
+                [group]="gridState.group"
+                [groupable]="false"
+                [pageable]="pageConfig"
+                [sort]="gridState.sort"
+                kendoGridSelectBy="id"
+                [style.height]="'100%'"
+                [selectedKeys]="selectionIds"
+                (dataStateChange)="onStateChange($event)"
+            >
+                <kendo-grid-column width="100" [title]="'LB.ACTION' | translate" class="text-center">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <a href="javascript:void(0)" (click)="editHandler(dataItem)" class="m-nav__linkt text-info">
+                            <i class="m-nav__link-icon flaticon-edit" [ngStyle]="{ 'font-size': '18px' }"></i>
+                            <span class="m-nav__link-text"> </span>
+                        </a>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="text-center">
+                            {{ rowIndex + 1 }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="maBieuMau" width="150" [title]="'ST.BIEU_MAU.MA' | translate" class="font-weight-bold">
+                </kendo-grid-column>
+                <kendo-grid-column field="tenBieuMau" [title]="'ST.BIEU_MAU.TEN' | translate"></kendo-grid-column>
+                <kendo-grid-column field="checkSum" [title]="'CheckSum' | translate">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="text-muted">
+                            {{ dataItem?.checkSum }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="isExportPDF" width="120" [title]="'Export PDF' | translate" class="text-center">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="font-weight-bold">
+                            <a (click)="isExportPdfChange(dataItem)">
+                                <i
+                                    class="la la-check font-weight-bold"
+                                    [ngStyle]="{ 'font-size': '18px' }"
+                                    [ngClass]="dataItem?.isExportPDF ? 'text-success' : 'text-secondary'"
+                                ></i>
+                            </a>
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="loaiFile" width="120" [title]="'ST.BIEU_MAU.LOAI_BIEU_MAU' | translate" class="text-center">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="font-weight-bold">
+                            {{ dataItem?.loaiFile }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column width="120" [title]="'ST.BIEU_MAU.TAI_BIEU_MAU' | translate" class="text-center">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <a href="javascript:void(0)" (click)="downLoadHandler(dataItem)" class="m-nav__link">
+                            <i class="m-nav__link-icon flaticon-download"></i>
+                        </a>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="groupName" title="GroupName" hidden="true">
+                    <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                        {{ value ? value : 'Chưa định nghĩa' }}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="k-overlay" *ngIf="opened"></div>
+<div class="wrapper form-layouts">
+    <div kendoWindowContainer></div>
+</div>

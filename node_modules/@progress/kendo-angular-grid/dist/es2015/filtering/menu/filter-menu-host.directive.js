@@ -1,0 +1,41 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+import { Directive, ViewContainerRef, ComponentFactoryResolver, Input } from "@angular/core";
+import { FilterHostDirective } from "../filter-host.directive";
+import { isNullOrEmptyString, isPresent } from "../../utils";
+import { filterMenuComponentFactory } from "./filter-menu-component.factory";
+import { StringFilterMenuComponent } from "./string-filter-menu.component";
+import { FilterService } from "../filter.service";
+/**
+ * @hidden
+ */
+export class FilterMenuHostDirective extends FilterHostDirective {
+    constructor(host, resolver) {
+        super(host, resolver);
+    }
+    componentType() {
+        if (isPresent(this.column) && !isNullOrEmptyString(this.column.filter)) {
+            return filterMenuComponentFactory(this.column.filter);
+        }
+        return StringFilterMenuComponent;
+    }
+    initComponent(ctx) {
+        super.initComponent(ctx);
+        this.component.instance.filterService = this.filterService;
+    }
+}
+FilterMenuHostDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[kendoFilterMenuHost]'
+            },] },
+];
+/** @nocollapse */
+FilterMenuHostDirective.ctorParameters = () => [
+    { type: ViewContainerRef },
+    { type: ComponentFactoryResolver }
+];
+FilterMenuHostDirective.propDecorators = {
+    filterService: [{ type: Input }]
+};

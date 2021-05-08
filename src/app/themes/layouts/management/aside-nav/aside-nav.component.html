@@ -1,0 +1,125 @@
+<button class="m-aside-left-close" id="m_aside_left_close_btn">
+    <i class="la la-close"></i>
+</button>
+<div id="m_aside_left" class="m-grid__item m-aside-left m-aside-left--skin-dark">
+    <!-- <div [ngStyle]="{ 'height.px': scrollHeight }">
+        <ng-scrollbar #scrollable track="all" pointerEventsMethod="scrollbar" [disabled]="true">
+
+        </ng-scrollbar>
+    </div> -->
+    <div id="m_ver_menu" class="m-aside-menu">
+        <ul class="m-menu__nav m-menu__nav--dropdown-submenu-arrow">
+            <ng-container *ngFor="let menu of listMenu; let i = index; trackBy: trackByFunction">
+                <li class="m-menu__section">
+                    <h4 class="m-menu__section-text">{{ menu.title }}</h4>
+                </li>
+                <ng-container *ngFor="let child of menu.subMenu; let j = index; trackBy: trackByFunction">
+                    <!-- check menu chi co node cha -->
+                    <ng-container *ngIf="child.cssBadge && child.cssBadge === 'ONLY'; else haveSubMenu">
+                        <li
+                            class="m-menu__item m-menu__item--submenu"
+                            routerLinkActiveOptions="{ exact: true }"
+                            [ngClass]="{ 'li-left-menu-active m-menu__item--open': child.isActive }"
+                            aria-haspopup="true"
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a class="m-menu__link m-menu__toggle" (click)="changeUrlNodeCha(child.subMenu[0].link, child.title, i, j)">
+                                <div [innerHTML]="child.css | vnuIcon | safeHtml: 'html'"></div>
+                                <span class="m-menu__link-text" style="padding-left: 30px"> {{ child.title }} </span>
+                                <div class="m-menu__link-sub">{{ child.shortName }}</div>
+                            </a>
+                        </li>
+                    </ng-container>
+                    <ng-template #haveSubMenu>
+                        <li
+                            class="m-menu__item m-menu__item--submenu"
+                            routerLinkActiveOptions="{ exact: true }"
+                            [ngClass]="{ 'li-left-menu-active m-menu__item--open': child.isActive }"
+                            aria-haspopup="true"
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <div [innerHTML]="child.css | vnuIcon | safeHtml: 'html'"></div>
+                                <span class="m-menu__link-text" style="padding-left: 30px"> {{ child.title }} </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                <div class="m-menu__link-sub">{{ child.shortName }}</div>
+                            </a>
+                            <div class="m-menu__submenu">
+                                <span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <ng-container *ngFor="let item of child.subMenu; let k = index; trackBy: trackByFunction">
+                                        <li
+                                            class="m-menu__item m-menu__item--submenu"
+                                            [ngClass]="{ 'li-left-menu-active m-menu__item--open': item.isActive }"
+                                            routerLinkActiveOptions="{ exact: true }"
+                                            aria-haspopup="true"
+                                            m-menu-submenu-toggle="hover"
+                                        >
+                                            <ng-container *ngIf="item.subMenu && item.subMenu.length > 0; else other_menu">
+                                                <a class="m-menu__link m-menu__toggle">
+                                                    <span class="m-menu__link-text"> {{ item.title }} </span>
+                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                                </a>
+                                                <div class="m-menu__submenu">
+                                                    <span class="m-menu__arrow"></span>
+                                                    <ul class="m-menu__subnav">
+                                                        <ng-container
+                                                            *ngFor="let itemchild of item.subMenu; let y = index; trackBy: trackByFunction"
+                                                        >
+                                                            <li
+                                                                class="m-menu__item m-menu__item--submenu"
+                                                                [ngClass]="{ 'li-left-menu-active m-menu__item--open': itemchild.isActive }"
+                                                                routerLinkActiveOptions="{ exact: true }"
+                                                                aria-haspopup="true"
+                                                                m-menu-submenu-toggle="hover"
+                                                            >
+                                                                <a
+                                                                    class="m-menu__link m-menu__toggle"
+                                                                    (click)="changeUrlsub(itemchild.link, itemchild.title, i, j, k, y)"
+                                                                >
+                                                                    <span class="m-menu__link-text"> {{ itemchild.title }} </span>
+                                                                </a>
+                                                            </li>
+                                                        </ng-container>
+                                                    </ul>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #other_menu>
+                                                <a class="m-menu__link m-menu__toggle" (click)="changeUrl(item.link, item.title, i, j, k)">
+                                                    <span class="m-menu__link-text"> {{ item.title }} </span>
+                                                    <span class="m-menu__link-badge" *ngIf="item.cssBadge" [ngClass]="item.cssBadge">
+                                            </span>
+                                                </a>
+                                            </ng-template>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </li>
+                    </ng-template>
+                </ng-container>
+            </ng-container>
+        </ul>
+    </div>
+
+    <div class="m-stack__item m-stack__item--middle m_brand__tools">
+        <ul class="theme-color">
+            <ng-container *ngFor="let color of colors">
+                <li class="current" [ngClass]="'color-' + color" (click)="changeThemeColor(color)"></li>
+            </ng-container>
+        </ul>
+        <a
+            href="javascript:;"
+            id="m_aside_left_minimize_toggle"
+            (click)="showMenu()"
+            class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block"
+        >
+            <ng-container *ngIf="!opened; else notShow">
+                <div [innerHTML]="'angle-double-left.svg' | vnuIcon | safeHtml: 'html'"></div>
+            </ng-container>
+            <ng-template #notShow>
+                <div [innerHTML]="'angle-double-right.svg' | vnuIcon | safeHtml: 'html'"></div>
+            </ng-template>
+        </a>
+    </div>
+</div>

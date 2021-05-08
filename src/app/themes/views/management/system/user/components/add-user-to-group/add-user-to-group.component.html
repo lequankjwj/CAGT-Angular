@@ -1,0 +1,73 @@
+<div class="m-portlet m-portlet--full-height mb-0">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-input-icon m-input-icon--left m-input-icon--right dropdown-search-advance">
+                <input
+                    type="text"
+                    class="form-control m-input"
+                    placeholder="{{ 'BTN.SEARCH' | translate }}"
+                    [formControl]="searchControl"
+                    (change)="onSearchChange()"
+                    (keydown.enter)="onSearchChange()"
+                />
+                <span class="m-input-icon__icon m-input-icon__icon--left">
+                    <span>
+                        <i class="la la-search"></i>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <a href="javascript:void(0)" (click)="onSubmit()" class="btn_custom btn_add">
+                        <span class="text">
+                            {{ 'BTN.SAVE' | translate }}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <div class="grid-wrapper">
+            <kendo-grid
+                [data]="gridView$ | async"
+                [pageSize]="gridState.take"
+                [skip]="gridState.skip"
+                [pageable]="{
+                    buttonCount: 5,
+                    pageSizes: [10, 20, 50],
+                    previousNext: true
+                }"
+                [resizable]="true"
+                [columnMenu]="false"
+                [sortable]="true"
+                [sort]="gridState.sort"
+                [height]="500"
+                [selectable]="true"
+                kendoGridSelectBy="id"
+                [selectedKeys]="selectionIds"
+                (dataStateChange)="onStateChange($event)"
+            >
+                <kendo-grid-checkbox-column width="45" [columnMenu]="false" showSelectAll="true"> </kendo-grid-checkbox-column>
+                <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="text-center">
+                            {{ rowIndex + 1 }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="userName" [title]="'LB.HRM.USERNAME' | translate"> </kendo-grid-column>
+                <kendo-grid-column [title]="'LB.HRM.HO_TEN' | translate" [columnMenu]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div>{{ dataItem?.firstName }} {{ dataItem?.lastName }}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="email" [title]="'LB.HRM.EMAIL' | translate"> </kendo-grid-column>
+                <kendo-grid-column field="mobileNumber" [title]="'LB.HRM.SO_DIEN_THOAI' | translate"> </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>

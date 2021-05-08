@@ -1,0 +1,30 @@
+<form class="m-form" novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group m-form__group">
+        <label class="control-label">{{ 'LB.HRM.USERNAME' | translate }} <span class="text-danger">(*)</span></label>
+        <input type="text" class="m-input form-control" formControlName="username" />
+        <app-field-error [control]="form.get('username')"></app-field-error>
+    </div>
+    <div class="form-group m-form__group">
+        <label class="control-label">{{ 'USER.PASSWORD_DEFAULT' | translate }} <span class="text-danger">(*)</span></label>
+        <input type="password" class="m-input form-control" formControlName="password" />
+        <app-field-error [control]="form.get('password')"></app-field-error>
+    </div>
+    <div class="form-group m-form__group">
+        <label class="control-label">{{ 'GROUP_USER.TITLE' | translate }} <span class="text-danger">(*)</span></label>
+        <asc-select [modeOfDropDowList]="dropdownListEnum.GROUP_USER" [placeHolder]="'LB.SELECT' | translate" formControlName="parentId">
+        </asc-select>
+        <app-field-error [control]="form.get('parentId')"></app-field-error>
+    </div>
+    <div class="form-group m-form__group">
+        <label class="control-label">{{ 'LB.HRM.HO_TEN' | translate }} </label>
+        <input type="text" class="m-input form-control" [value]="model.hoDem + ' ' + model.ten" disabled />
+    </div>
+    <div class="form-group m-form__group">
+        <label class="control-label">{{ 'LB.HRM.CO_QUAN' | translate }} </label>
+        <input type="text" class="m-input form-control" [value]="model.tenDonVi" disabled />
+    </div>
+    <div class="text-right mt-3">
+        <button type="button" (click)="closeForm()" class="btn_custom btn_remove btn_close mr-1">{{ 'BTN.CANCEL' | translate }}</button>
+        <button type="submit" class="btn_custom btn_add">{{ 'BTN.SAVE' | translate }}</button>
+    </div>
+</form>

@@ -1,0 +1,14 @@
+<ng-container *ngIf="isLeftMenu">
+    <app-aside-nav></app-aside-nav>
+</ng-container>
+<div class="m-grid__item m-grid__item--fluid m-wrapper mb-0">
+    <div class="m-content">
+        <div class="tab-content">
+            <div class="tab-pane asc-tabs active show" [ngClass]="{'zoompage': this.isZoom}">
+                <div class="table-tool" title="Phóng to, thu nhỏ" (click)="onZoom()"></div>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+    <!--    <app-quick-sidebar></app-quick-sidebar>-->
+</div>

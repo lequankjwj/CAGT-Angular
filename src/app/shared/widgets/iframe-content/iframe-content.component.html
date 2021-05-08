@@ -1,0 +1,13 @@
+<div class="row content application-box">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <iframe
+            #iframe
+            style="width: 100%; height: 100%; position: relative"
+            [src]="selectedContent | safeHtml: 'resourceUrl'"
+            frameborder="0"
+            onload="this.style.height=(this.contentWindow.document.body.scrollHeight+200)+'px';"
+            allowfullscreen
+        ></iframe>
+    </div>
+</div>
+<!-- onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';" -->

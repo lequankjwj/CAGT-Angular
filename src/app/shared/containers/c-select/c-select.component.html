@@ -1,0 +1,16 @@
+<nz-select
+    nzShowSearch
+    [nzPlaceHolder]="placeHolder"
+    nzAllowClear
+    [nzDisabled]="isDisabled"
+    [(ngModel)]="value"
+    [nzMode]="mode"
+    (ngModelChange)="onChange($event)"
+>
+    <ng-container *ngFor="let item of listOfOption">
+        <nz-option *ngIf="!isLoading" [nzLabel]="item.text" [nzValue]="item.id"></nz-option>
+    </ng-container>
+    <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+        <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
+    </nz-option>
+</nz-select>

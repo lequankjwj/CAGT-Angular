@@ -1,0 +1,36 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var shared_module_1 = require("../../shared.module");
+var footer_component_1 = require("./footer.component");
+var exportedModules = [
+    footer_component_1.FooterComponent
+];
+var importedModules = [
+    common_1.CommonModule,
+    shared_module_1.SharedModule
+];
+/**
+ * @hidden
+ */
+var FooterModule = /** @class */ (function () {
+    function FooterModule() {
+    }
+    FooterModule.exports = function () {
+        return [];
+    };
+    FooterModule.decorators = [
+        { type: core_1.NgModule, args: [{
+                    declarations: [exportedModules],
+                    exports: [exportedModules],
+                    imports: importedModules.slice()
+                },] },
+    ];
+    return FooterModule;
+}());
+exports.FooterModule = FooterModule;

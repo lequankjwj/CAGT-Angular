@@ -1,0 +1,335 @@
+<kendo-splitter orientation="horizontal" style="height: 100%">
+    <kendo-splitter-pane size="25%">
+        <div class="m-portlet m-portlet--full-height" style="box-shadow: none">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">{{ 'PERMISSION.TITLE' | translate }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="box p-3">
+                    <input
+                        [(ngModel)]="searchTerm"
+                        #search
+                        (keyup)="onkeyup(search.value)"
+                        type="text"
+                        class="form-control"
+                        placeholder="Tìm kiếm ..."
+                    />
+                </div>
+                <div class="p-3">
+                    <cdk-virtual-scroll-viewport class="example-viewport">
+                        <kendo-treeview
+                            [nodes]="parsedData"
+                            textField="name"
+                            kendoTreeViewExpandable
+                            kendoTreeViewSelectable
+                            kendoTreeViewHierarchyBinding
+                            childrenField="childrens"
+                            [expandBy]="'key'"
+                            [(expandedKeys)]="expandedKeys"
+                            (nodeClick)="treeClick($event)"
+                        >
+                            <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                <span class="mr-2" [ngClass]="dataItem.isGroup ? 'fa fa-users' : 'fa fa-user'"></span>
+                                {{ dataItem.name }}
+                            </ng-template>
+                        </kendo-treeview>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+            </div>
+        </div>
+    </kendo-splitter-pane>
+    <kendo-splitter-pane>
+        <div class="m-portlet m-portlet--full-height mb-0">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text" *ngIf="userTree">{{ userTree.name }}</h3>
+                    </div>
+                </div>
+                <div class="m-portlet__head-tools">
+                    <ul class="m-portlet__nav">
+                        <li class="m-portlet__nav-item" *ngIf="!isCurrentUser">
+                            <a href="javascript:void(0)" (click)="savePermission()" class="btn_custom btn_add">
+                                <span class="text">
+                                    {{ 'PERMISSION.SAVE' | translate }}
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="box-border">
+                    <div class="m-form__group form-group">
+                        <label class="m--font-boldest"> {{ 'PERMISSION.APPLY' | translate }} </label>
+                        <div class="m-radio-inline radio-permission">
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfInherited"
+                                    [value]="loaiKeThuaQuyenEnum.KhongApDung"
+                                    name="keThuaQuyen"
+                                    (change)="setKeThuaQuyen($event)"
+                                />
+                                {{ 'PERMISSION.NO_APPLY' | translate }}
+                                <span></span>
+                            </label>
+                            <!-- <label class="m-radio"  *ngIf="!isCurrentUser">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfInherited"
+                                    [value]="loaiKeThuaQuyenEnum.KeThuaQuyenTuNhom"
+                                    name="keThuaQuyen"
+                                    (change)="setKeThuaQuyen($event)"
+                                />
+                                Kế thừa quyền từ nhóm
+                                <span></span>
+                            </label> -->
+                        </div>
+                    </div>
+                    <div class="m-form__group form-group" *ngIf="keThuaQuyenValue == 2">
+                        <!-- <nz-select [nzPlaceHolder]="'PERMISSION.SELECT' | translate" nzMode="multiple">
+                            <nz-option *ngFor="let item of listOfGroupUser" [nzLabel]="item" [nzValue]="item">
+                            </nz-option>
+                        </nz-select> -->
+                    </div>
+                    <div class="m-form__group form-group">
+                        <label class="m--font-boldest"> {{ 'PERMISSION.ADD' | translate }} </label>
+                        <div class="m-radio-inline radio-permission">
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfAddition"
+                                    [value]="loaiBoSungQuyenEnum.KhongApDung"
+                                    name="boSungQuyenMoi"
+                                />
+                                {{ 'PERMISSION.DONT_APPLY' | translate }}
+                                <span></span>
+                            </label>
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfAddition"
+                                    [value]="loaiBoSungQuyenEnum.ApDungCapDuoiGanNhat"
+                                    name="boSungQuyenMoi"
+                                />
+                                {{ 'PERMISSION.APPLY_MEMBER' | translate }}
+                                <span></span>
+                            </label>
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfAddition"
+                                    [value]="loaiBoSungQuyenEnum.ApDungTatCaCapDuoi"
+                                    name="boSungQuyenMoi"
+                                />
+                                {{ 'PERMISSION.APPLY_ALL' | translate }}
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="m-form__group form-group">
+                        <label class="m--font-boldest"> {{ 'PERMISSION.REMOVE' | translate }}</label>
+                        <div class="m-radio-inline radio-permission">
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfWithdraw"
+                                    [value]="loaiThuHoiQuyenEnum.ThuHoiTatCa"
+                                    name="thuHoiQuyenCu"
+                                />
+                                {{ 'PERMISSION.REMOVE_ALL' | translate }}
+                                <span></span>
+                            </label>
+                            <label class="m-radio">
+                                <input
+                                    type="radio"
+                                    [(ngModel)]="modelOptional.typeOfWithdraw"
+                                    [value]="loaiThuHoiQuyenEnum.KhongThuHoi"
+                                    name="thuHoiQuyenCu"
+                                />
+                                {{ 'PERMISSION.NO_REMOVE' | translate }}
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="keThuaQuyenValue != 2">
+                    <div class="text-right p-3" style="border-bottom: 1px solid #dadce0">
+                        <button class="btn_custom btn_df" (click)="collapseGroups(gridPermission)">
+                            <span class="text">{{ 'BTN.COLLAPSE_ALL' | translate }}</span>
+                        </button>
+                        <button class="btn_custom btn_df ml-1" (click)="expandGroups(gridPermission)">
+                            <span class="text">{{ 'BTN.EXPAND_ALL' | translate }}</span>
+                        </button>
+                    </div>
+                    <kendo-grid #gridPermission [groupable]="false" [data]="gridView" [group]="groups" scrollable="virtual">
+                        <kendo-grid-column [width]="40" [class]="{ 'text-center': true }">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <div class="text-center">
+                                    <ng-container *ngIf="!isCurrentUser">
+                                        <label class="m-checkbox checkbox-tree-list">
+                                            <input
+                                                type="checkbox"
+                                                [(ngModel)]="dataItem.isHasRole"
+                                                (change)="setPermission($event, dataItem)"
+                                            />
+                                            <span></span>
+                                        </label>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="f_Name" [title]="'PERMISSION.FUNCTION' | translate" [width]="200">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <ng-container>{{ dataItem.f_Name ? dataItem.f_Name : dataItem.g_Name }}</ng-container>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column
+                            field="isView"
+                            [title]="'PERMISSION.VIEW' | translate"
+                            [width]="60"
+                            [class]="{ 'text-center': true }"
+                        >
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <ng-container *ngIf="!isCurrentUser">
+                                    <label class="m-checkbox checkbox-tree-list" *ngIf="dataItem.isView !== null">
+                                        <input type="checkbox" [(ngModel)]="dataItem.isView" />
+                                        <span></span>
+                                    </label>
+                                </ng-container>
+                                <ng-container *ngIf="isCurrentUser && dataItem.isView">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </ng-container>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column
+                            field="isAdd"
+                            [title]="'PERMISSION.CREATE' | translate"
+                            [width]="80"
+                            [class]="{ 'text-center': true }"
+                        >
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <ng-container *ngIf="!isCurrentUser">
+                                    <label class="m-checkbox checkbox-tree-list" *ngIf="dataItem.isAdd !== null">
+                                        <input type="checkbox" [(ngModel)]="dataItem.isAdd" />
+                                        <span></span>
+                                    </label>
+                                </ng-container>
+                                <ng-container *ngIf="isCurrentUser && dataItem.isAdd">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </ng-container>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column
+                            field="isEdit"
+                            [title]="'PERMISSION.UPDATE' | translate"
+                            [width]="60"
+                            [class]="{ 'text-center': true }"
+                        >
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <ng-container *ngIf="!isCurrentUser">
+                                    <label class="m-checkbox checkbox-tree-list" *ngIf="dataItem.isEdit !== null">
+                                        <input type="checkbox" [(ngModel)]="dataItem.isEdit" />
+                                        <span></span>
+                                    </label>
+                                </ng-container>
+                                <ng-container *ngIf="isCurrentUser && dataItem.isEdit">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </ng-container>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column
+                            field="isDelete"
+                            [title]="'PERMISSION.DELETE' | translate"
+                            [width]="60"
+                            [class]="{ 'text-center': true }"
+                        >
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <ng-container *ngIf="!isCurrentUser">
+                                    <label class="m-checkbox checkbox-tree-list" *ngIf="dataItem.isDelete !== null">
+                                        <input type="checkbox" [(ngModel)]="dataItem.isDelete" />
+                                        <span></span>
+                                    </label>
+                                </ng-container>
+                                <ng-container *ngIf="isCurrentUser && dataItem.isDelete">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </ng-container>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="TuyChon" [title]="'PERMISSION.OPTIONAL' | translate" [width]="150">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <div class="m-checkbox-list">
+                                    <ng-container *ngFor="let item of dataItem.lstOption">
+                                        <ng-container *ngIf="!isCurrentUser">
+                                            <label class="m-checkbox" *ngIf="item.isCheck !== null">
+                                                <input type="checkbox" [(ngModel)]="item.isCheck" />
+                                                {{ item.a_Name }}
+                                                <span></span>
+                                            </label>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCurrentUser && item.isCheck">
+                                            <i class="fa fa-check-circle text-success"></i> {{ item.a_Name }}
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- HANDLE GRID GROUP HEADER -->
+                        <kendo-grid-column field="g_GroupName" title="Group" hidden="true">
+                            <ng-template
+                                kendoGridGroupHeaderTemplate
+                                let-value="value"
+                                let-dataItem
+                                let-index="index"
+                                let-expanded="expanded"
+                            >
+                                <div class="d-flex justify-content-between" style="width: 100%">
+                                    <div>{{ value }}</div>
+                                    <div *ngIf="expanded">
+                                        <a
+                                            href="javascript:void(0)"
+                                            (click)="toggleItemInGroups(gridPermission, index, dataItem, expanded)"
+                                        >
+                                            <i
+                                                class="la"
+                                                [ngClass]="!nodePermissionExpaned[index] ? 'la-angle-down' : 'la-angle-right'"
+                                            ></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="g_Name" title="Screen" hidden="true">
+                            <ng-template
+                                kendoGridGroupHeaderTemplate
+                                let-dataItem
+                                let-value="value"
+                                let-index="index"
+                                let-expanded="expanded"
+                            >
+                                <ng-container *ngIf="!isCurrentUser; else disabledEdit">
+                                    <div class="d-flex justify-content-between" style="width: 100%">
+                                        <label class="m-checkbox m-checkbox--air checkbox-permission">
+                                            <input type="checkbox" (change)="setPermissionOfGroup($event, dataItem)" />
+                                            {{ value }}
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                                <ng-template #disabledEdit>
+                                    {{ value }}
+                                </ng-template>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                </ng-container>
+            </div>
+        </div>
+    </kendo-splitter-pane>
+</kendo-splitter>

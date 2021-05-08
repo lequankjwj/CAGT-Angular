@@ -1,0 +1,9 @@
+<ng-container *ngIf="isMedia; else incorrect">
+    <div style="height: 100%">
+        <iframe [src]="mediaUrl" class="embed-responsive-item full-height" width="100%" frameborder="0" height="1000px"></iframe>
+    </div>
+</ng-container>
+
+<ng-template #incorrect>
+    <nz-result nzStatus="warning" nzTitle="Tập tin không hợp lệ !"> </nz-result>
+</ng-template>

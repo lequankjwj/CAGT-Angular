@@ -1,0 +1,32 @@
+.select-user {
+    width: 100%;
+    > nz-select {
+        overflow: auto;
+        max-height: 100px;
+        width: 84% !important;
+    }
+    .btn-user {
+        height: 32px;
+        button {
+            //width: 35px;
+            border: 1px solid #d9d9d9;
+            background: #f3f6f9;
+            padding-top: 6px;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .svg-icon {
+            svg {
+                margin-top: -3px;
+                margin-left: -5px;
+            }
+        }
+    }
+}
+
+.m-checkbox-user {
+    margin-bottom: 0 !important;
+    .k-treeview .k-in.k-state-selected {
+        background-color: #eef0f8 !important;
+    }
+}

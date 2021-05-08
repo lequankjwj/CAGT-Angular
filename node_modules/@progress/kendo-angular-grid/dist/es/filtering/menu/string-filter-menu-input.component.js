@@ -1,0 +1,31 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+import { Component, Input } from '@angular/core';
+import { ColumnComponent } from "../../columns/column.component";
+import { FilterService } from '../filter.service';
+/**
+ * @hidden
+ */
+var StringFilterMenuInputComponent = /** @class */ (function () {
+    function StringFilterMenuInputComponent() {
+        this.operators = [];
+    }
+    StringFilterMenuInputComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'kendo-grid-string-filter-menu-input',
+                    template: "\n        <kendo-grid-filter-menu-input-wrapper\n            [column]=\"column\"\n            [filter]=\"filter\"\n            [operators]=\"operators\"\n            [defaultOperator]=\"operator\"\n            [currentFilter]=\"currentFilter\"\n            [filterService]=\"filterService\"\n            >\n            <input class=\"k-textbox\" kendoFilterInput [filterDelay]=\"0\" [ngModel]=\"currentFilter?.value\" />\n        </kendo-grid-filter-menu-input-wrapper>\n    "
+                },] },
+    ];
+    StringFilterMenuInputComponent.propDecorators = {
+        operators: [{ type: Input }],
+        column: [{ type: Input }],
+        filter: [{ type: Input }],
+        operator: [{ type: Input }],
+        currentFilter: [{ type: Input }],
+        filterService: [{ type: Input }]
+    };
+    return StringFilterMenuInputComponent;
+}());
+export { StringFilterMenuInputComponent };

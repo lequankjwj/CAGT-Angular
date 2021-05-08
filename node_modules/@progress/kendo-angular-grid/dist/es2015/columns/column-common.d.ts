@@ -1,0 +1,53 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+import { ColumnBase } from "./column-base";
+/**
+ * @hidden
+ */
+export declare const expandColumns: (columns: ColumnBase[]) => ColumnBase[];
+/**
+ * @hidden
+ */
+export declare const expandColumnsWithSpan: (columns: ColumnBase[]) => ColumnBase[];
+/**
+ * @hidden
+ */
+export declare const columnsToRender: (columns: ColumnBase[]) => ColumnBase[];
+/**
+ * @hidden
+ */
+export declare const sumColumnWidths: (array: any[]) => number;
+/**
+ * @hidden
+ */
+export declare const columnsSpan: (array: any[]) => number;
+/**
+ * @hidden
+ */
+export declare const isValidFieldName: (fieldName: string) => boolean;
+/**
+ * @hidden
+ */
+export declare const children: (column: any) => any;
+/**
+ * @hidden
+ */
+export declare const leafColumns: (columns: any) => any;
+/**
+ * @hidden
+ */
+export declare const someLeafColumn: (callback: any, ...columns: any[]) => boolean;
+/**
+ * @hidden
+ */
+export declare const resizableColumns: (columns: any) => any;
+/**
+ * @hidden
+ */
+export declare const sortColumns: (columns: ColumnBase[]) => ColumnBase[];
+/**
+ * @hidden
+ */
+export declare const isInSpanColumn: (column: ColumnBase) => boolean;

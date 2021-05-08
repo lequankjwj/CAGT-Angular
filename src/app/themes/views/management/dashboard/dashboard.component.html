@@ -1,0 +1,326 @@
+<div class="dashboard_wapper">
+    <div class="row">
+        <div class="col-md-5">
+            <div>
+                <div class="dashboard-tabs">
+                    <div class="dashboard-tabs-head">
+                        <h3 class="dashboard-tabs-title">NHÂN SỰ THEO CƠ QUAN</h3>
+                    </div>
+                    <div class="dashboard-tabs-body nicescroll-cl">
+                        <kendo-chart style="height: 326px" renderAs="canvas" [pannable]="true" [zoomable]="true">
+                            <!-- <kendo-chart-title text="NHÂN SỰ THEO ĐƠN VỊ"></kendo-chart-title> -->
+                            <kendo-chart-legend position="bottom" orientation="horizontal"> </kendo-chart-legend>
+                            <kendo-chart-category-axis>
+                                <kendo-chart-category-axis-item [categories]="cateNSDonVi" [labels]="{ rotation: -45 }">
+                                </kendo-chart-category-axis-item>
+                            </kendo-chart-category-axis>
+                            <kendo-chart-series>
+                                <kendo-chart-series-item name="Nam" type="column" stack="true" [data]="seriesDataNSDonViOfNam">
+                                </kendo-chart-series-item>
+                                <kendo-chart-series-item name="Nữ" type="column" stack="true" [data]="seriesDataNSDonViOfNu">
+                                </kendo-chart-series-item>
+                            </kendo-chart-series>
+                        </kendo-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="dashboard-tabs">
+                    <div class="dashboard-tabs-head">
+                        <h3 class="dashboard-tabs-title">BIẾN ĐỘNG NHÂN SỰ</h3>
+                    </div>
+                    <div class="dashboard-tabs-body nicescroll-cl">
+                        <kendo-chart style="height: 206px">
+                            <kendo-chart-category-axis>
+                                <kendo-chart-category-axis-item
+                                    [categories]="['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12']"
+                                >
+                                </kendo-chart-category-axis-item>
+                            </kendo-chart-category-axis>
+                            <kendo-chart-series>
+                                <kendo-chart-series-item type="line" [data]="[143, 276, 310, 212, 240, 176, 322, 161, 253, 262, 154, 271]">
+                                </kendo-chart-series-item>
+                                <kendo-chart-series-item type="line" [data]="[124, 172, 213, 117, 140, 157, 212, 126, 153, 240, 55, 203]">
+                                </kendo-chart-series-item>
+                            </kendo-chart-series>
+                        </kendo-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-6 pl-0 pr-0">
+                            <div class="box-card box-card-blue">
+                                <div class="card-content">
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <a class="txt" href="javascript:">Đăng ký nghỉ phép</a>
+
+                                            <h3 class="number">7</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-card">
+                                <div>
+                                    <!-- <kendo-chart style="height: 100%;">
+                                        <kendo-chart-series>
+                                            <kendo-chart-series-item
+                                                type="pie"
+                                                [data]="seriesDataGioiTinh"
+                                                categoryField="cateGioiTinh"
+                                                field="share",
+                                                [labels]="{ visible: true, content: labelContent }"
+                                            >
+                                                <kendo-chart-series-item-labels [content]="labelContent" color="#fff" background="none">
+                                                </kendo-chart-series-item-labels>
+                                            </kendo-chart-series-item>
+                                        </kendo-chart-series>
+
+                                        <kendo-chart-legend visible="true" position="bottom" orientation="horizontal"> </kendo-chart-legend>
+                                    </kendo-chart> -->
+
+                                    <kendo-chart style="height: 266px">
+                                        <kendo-chart-legend position="bottom"></kendo-chart-legend>
+                                        <kendo-chart-series>
+                                            <kendo-chart-series-item
+                                                type="pie"
+                                                [data]="seriesDataGioiTinh"
+                                                field="value"
+                                                categoryField="category"
+                                                [labels]="{ visible: false, content: labelContent }"
+                                            >
+                                            </kendo-chart-series-item>
+                                        </kendo-chart-series>
+                                    </kendo-chart>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="box-card box-card-yellow">
+                                <div class="card-content">
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <a class="txt" href="javascript:">Nâng bậc ngạch</a>
+
+                                            <h3 class="number">26</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-card">
+                                <div class="card-content">
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <a class="txt" href="javascript:">Hết hạn tập sự</a>
+                                            <h3 class="number">6</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-card">
+                                <div class="card-content">
+                                    <div class="clearfix">
+                                        <div class="float-right">
+                                            <i class="fa fa-briefcase icon" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="float-left">
+                                            <a class="txt" href="javascript:">Hết hạn HĐ</a>
+                                            <h3 class="number">9</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-card">
+                                <div class="card-content">
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <a class="txt" href="javascript:">Nhân sự về hưu</a>
+
+                                            <h3 class="number">15</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-0">
+                            <div class="mg-11em"></div>
+                            <table class="dashboad-table">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên trình độ</th>
+                                        <th>Số lượng</th>
+                                        <th>Tỷ lệ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <span class="grid-title">Giáo sư</span>
+                                        </td>
+                                        <td class="text-center">10</td>
+                                        <td>3.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <span class="grid-title">Phó Giáo sư</span>
+                                        </td>
+                                        <td class="text-center">33</td>
+                                        <td>6.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <span class="grid-title">Tiến sỹ</span>
+                                        </td>
+                                        <td class="text-center">55</td>
+                                        <td>12.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>
+                                            <span class="grid-title">Thạc sỹ</span>
+                                        </td>
+                                        <td class="text-center">251</td>
+                                        <td>24.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>
+                                            <span class="grid-title">Đại học</span>
+                                        </td>
+                                        <td class="text-center">450</td>
+                                        <td>48.0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 pl-0">
+                    <div class="dashboard-tabs">
+                        <div class="dashboard-tabs-head">
+                            <h3 class="dashboard-tabs-title">Hoạt động gần đây</h3>
+                        </div>
+                        <div class="dashboard-tabs-body nicescroll-cl">
+                            <div class="m-portlet m-portlet--full-height">
+                                <div class="m-portlet__body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="m_widget4_tab1_content">
+                                            <div
+                                                class="m-scrollable"
+                                                data-scrollable="true"
+                                                data-max-height="255"
+                                                style="height: 255px; overflow: hidden"
+                                            >
+                                                <div class="m-list-timeline m-list-timeline--skin-light">
+                                                    <div class="m-list-timeline__items">
+                                                        <div class="m-list-timeline__item">
+                                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
+                                                            <span class="m-list-timeline__text"> Cập nhật lý lịch khoa học </span>
+                                                            <span class="m-list-timeline__time"> 15 phút</span>
+                                                        </div>
+                                                        <div class="m-list-timeline__item">
+                                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
+                                                            <span class="m-list-timeline__text">
+                                                                Tạo phiếu đánh giá
+                                                                <span class="m-badge m-badge--success m-badge--wide"> Phiếu </span>
+                                                            </span>
+                                                            <span class="m-list-timeline__time"> 32 phút</span>
+                                                        </div>
+                                                        <div class="m-list-timeline__item">
+                                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
+                                                            <span class="m-list-timeline__text"> Gửi đánh giá nhân sự </span>
+                                                            <span class="m-list-timeline__time"> 42 phút </span>
+                                                        </div>
+                                                        <div class="m-list-timeline__item">
+                                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
+                                                            <span class="m-list-timeline__text">
+                                                                Phân quyền hệ thống
+                                                                <span class="m-badge m-badge--info m-badge--wide"> Quyền </span>
+                                                            </span>
+                                                            <span class="m-list-timeline__time"> 2 giờ trước </span>
+                                                        </div>
+                                                        <div class="m-list-timeline__item">
+                                                            <span class="m-list-timeline__badge m-list-timeline__badge--warning"></span>
+                                                            <span class="m-list-timeline__text">
+                                                                System error -
+                                                                <a href="#" class="m-link"> Check </a>
+                                                            </span>
+                                                            <span class="m-list-timeline__time"> 2 hrs </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="m_widget4_tab2_content"></div>
+                                        <div class="tab-pane" id="m_widget4_tab3_content"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-tabs">
+                        <div class="dashboard-tabs-head">
+                            <h3 class="dashboard-tabs-title">Thông tin liên lạc</h3>
+                        </div>
+                        <div class="dashboard-tabs-body">
+                            <div class="dashboard-box-contact">
+                                <div class="input-group">
+                                    <input type="text" class="form-control m-input" placeholder="Nhập tên nhân sự" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-search"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="nicescroll-cl">
+                                    <div class="m-widget4 m-widget4--progress">
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--pic">
+                                                <img src="./assets/images/avartar-user1.jpg" alt="" />
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__title"> Lê Quang Lực </span>
+                                                <br />
+                                                <span class="m-widget4__sub"> 0985 888 999 </span>
+                                            </div>
+                                        </div>
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--pic">
+                                                <img src="./assets/images/avartar-user2.jpg" alt="" />
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__title"> Nguyễn Thanh Ngọc </span>
+                                                <br />
+                                                <span class="m-widget4__sub"> 0974 154 257 </span>
+                                            </div>
+                                        </div>
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--pic">
+                                                <img src="./assets/images/avartar-user3.jpg" alt="" />
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__title"> Nguyễn Thị Thúy Hằng </span>
+                                                <br />
+                                                <span class="m-widget4__sub"> 0974 123 456 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

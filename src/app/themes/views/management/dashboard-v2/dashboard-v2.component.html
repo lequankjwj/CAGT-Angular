@@ -1,0 +1,153 @@
+<div class="p-4">
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="dashboard_box">
+                <div class="row">
+                    <div class="col-xl-7">
+                        <div class="box_body">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">Tổng hợp kết quả</h5>
+                                </div>
+                            </div>
+                            <div class="m-section__content">
+                                <kendo-chart style="height: 266px">
+                                    <kendo-chart-legend position="bottom"></kendo-chart-legend>
+                                    <kendo-chart-series>
+                                        <kendo-chart-series-item
+                                            type="pie"
+                                            [data]="seriesDataXepLoai"
+                                            field="value"
+                                            categoryField="category"
+                                        >
+                                        </kendo-chart-series-item>
+                                    </kendo-chart-series>
+                                </kendo-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="box_body">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">Đối tượng</h5>
+                                    <div *ngIf="tongSoPhieu">
+                                        Tổng số phiếu đánh giá: <span class="font-weight-bold">{{ tongSoPhieu }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-section__content">
+                                <ng-container *ngFor="let doiTuong of seriesDataTongSoPhieu">
+                                    <div class="div mt-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-flex flex-column flex-grow-1 mr-2">
+                                                <a class="text-hover-primary font-weight-bold text-uppercase">{{ doiTuong.ten }}</a>
+                                            </div>
+                                            <span class="text-warning">{{ doiTuong.soPhieu }}/{{ doiTuong.tongSoPhieu }}</span>
+                                        </div>
+                                        <div class="progress my-2" style="height: 10px">
+                                            <div
+                                                class="progress-bar"
+                                                [ngClass]="changeStyle(doiTuong.idDoiTuongDanhGia)"
+                                                role="progressbar"
+                                                [style]="'width:' + (doiTuong.soPhieu / doiTuong.tongSoPhieu) * 100 + '%'"
+                                                aria-valuenow="25"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="dashboard_box card-stretch bg-gradient-custom-orange">
+                <div class="card-img-overlay mb-n4 mr-n4 d-flex" style="bottom: 0px; top: auto">
+                    <img src="/assets/images/order.svg" alt="" class="ml-auto d-block mb-n3" style="max-height: 105px" />
+                </div>
+                <div class="box_body position-relative">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1 text-white">Phiếu đánh giá cá nhân</h5>
+                        <!-- <div class="text-white">Đã khóa</div> -->
+                    </div>
+                    <h3 class="text-white mt-n1">{{ totalPhieuDanhGiaCaNhan }}</h3>
+                    <div>
+                        <a class="text-white d-flex align-items-center" [routerLink]="['/management/survey/tu-danh-gia']"
+                            >Xem phiếu đánh giá
+                            <svg
+                                class="svg-inline--fa fa-chevron-right fa-w-10 ml-2 text-white-transparent-5"
+                                aria-hidden="true"
+                                focusable="false"
+                                data-prefix="fa"
+                                data-icon="chevron-right"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"
+                                data-fa-i2svg=""
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                                ></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="dashboard_box">
+                <div class="box_body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">Tiến độ đánh giá</h5>
+                        </div>
+                    </div>
+                    <div class="m-section__content">
+                        <kendo-chart style="height: 500px" [pannable]="true" [zoomable]="true">
+                            <kendo-chart-legend position="bottom" orientation="horizontal"> </kendo-chart-legend>
+                            <kendo-chart-value-axis>
+                                <kendo-chart-value-axis-item [title]="{ text: 'Số phiếu' }" [min]="0"> </kendo-chart-value-axis-item>
+                            </kendo-chart-value-axis>
+                            <kendo-chart-category-axis>
+                                <kendo-chart-category-axis-item
+                                    [categories]="cateNSDonVi"
+                                    [labels]="{ rotation: -45 }"
+                                    [title]="{ text: 'Cơ quan/Đơn vị' }"
+                                >
+                                    <!--                                    <kendo-chart-category-axis-item-crosshair>-->
+                                    <!--                                        <kendo-chart-category-axis-item-crosshair-tooltip>-->
+                                    <!--                                        </kendo-chart-category-axis-item-crosshair-tooltip>-->
+                                    <!--                                    </kendo-chart-category-axis-item-crosshair>-->
+                                </kendo-chart-category-axis-item>
+                            </kendo-chart-category-axis>
+
+                            <kendo-chart-series>
+                                <ng-container *ngFor="let item of thongKeKetQuaXepLoaiTheoDonVis">
+                                    <kendo-chart-series-item [name]="item.name" type="column" stack="true" [data]="item.data">
+                                        <kendo-chart-tooltip format="Số phiếu: {0}"> </kendo-chart-tooltip>
+                                    </kendo-chart-series-item>
+                                </ng-container>
+                                <kendo-chart-series-item type="line" stack="true" [data]="seriesDataPhieuDanhGiaTotal">
+                                    <kendo-chart-series-item-tooltip>
+                                        <ng-template let-value="value" let-category="category">
+                                            {{ category }} <br />
+                                            Tổng số phiếu: {{ value }}
+                                        </ng-template>
+                                    </kendo-chart-series-item-tooltip>
+                                </kendo-chart-series-item>
+                            </kendo-chart-series>
+                            <kendo-chart-legend position="top"></kendo-chart-legend>
+                        </kendo-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

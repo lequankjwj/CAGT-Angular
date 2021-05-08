@@ -1,0 +1,13 @@
+{
+    "env": {
+        "name": "prod"
+    },
+    "logging": {
+        "console": true,
+        "appInsights": false
+    },
+    "resourceUrl": "http://devmedia.vnu.epmt.com.vn:2051/",
+    "apiServer": "http://dev.apivnu-gateway.epmt.com.vn:2051",
+    "version": "v1",
+    "sso": "https://uatidp.vnu.edu.vn"
+}

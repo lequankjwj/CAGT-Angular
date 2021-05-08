@@ -1,0 +1,13 @@
+{
+    "env": {
+        "name": "qa"
+    },
+    "logging": {
+        "console": true,
+        "appInsights": false
+    },
+    "resourceUrl": "http://tkmedia.vnu.epmt.com.vn:2051/",
+    "apiServer": "http://qa.apivnu-gateway.epmt.com.vn:2051",
+    "version": "v1",
+    "sso": "https://uatidp.vnu.edu.vn"
+}

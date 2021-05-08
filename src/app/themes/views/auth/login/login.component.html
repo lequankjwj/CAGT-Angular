@@ -1,0 +1,57 @@
+<div
+    class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-grid--tablet-and-mobile m-grid--hor-tablet-and-mobile bg_login"
+    id="m_login"
+>
+    <div class="container">
+        <div class="wapper-login">
+            <div class="div-login">
+                <div class="logo-top">
+                    <div>
+                        <div class="logo-hd">
+                            <img src="./assets/images/logo-vnu.svg" height="70px" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="redirectSSO()" class="login_forsso">{{ 'LB.LOGIN_SSO' | translate }}</button>
+                <button type="button" class="login_forhrm" (click)="loginWithHRM()">{{ 'LB.LOGIN_HRM' | translate }}</button>
+            </div>
+            <div class="div-content">
+                <div class="div-noti" *ngIf="!isLoginHRM">
+                    <h1 class="title-login">Hướng dẫn đăng nhập</h1>
+                    <div class="content">
+                        <div class="step">Cách 1:</div>
+                        {{ 'LB.LOGIN_SSO' | translate }}: {{ 'LB.LOGIN_DES_1' | translate }}
+                        <div class="my-3"></div>
+                        <div class="step">Cách 2:</div>
+                        {{ 'LB.LOGIN_HRM' | translate }}: {{ 'LB.LOGIN_DES_2' | translate }}
+                    </div>
+                </div>
+                <div class="form-login" *ngIf="isLoginHRM" [@fadeInOnEnter] [@fadeOutOnLeave]>
+                    <h1 class="title-login">{{ 'PAGE.LOGIN_TITLE' | translate }}</h1>
+                    <form class="form-login" [formGroup]="formLogin" (ngSubmit)="signin()">
+                        <div class="form-group">
+                            <input
+                                class="form-control m-input"
+                                type="text"
+                                placeholder="{{ 'LB.USERNAME' | translate }}"
+                                formControlName="userName"
+                                autocomplete="off"
+                            />
+                            <app-field-error [control]="formLogin.get('userName')"></app-field-error>
+                        </div>
+                        <div class="form-group">
+                            <input
+                                class="form-control m-input m-login__form-input--last"
+                                type="Password"
+                                placeholder="{{ 'LB.PASSWORD' | translate }}"
+                                formControlName="password"
+                            />
+                            <app-field-error [control]="formLogin.get('password')"></app-field-error>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-login">Đăng nhập</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

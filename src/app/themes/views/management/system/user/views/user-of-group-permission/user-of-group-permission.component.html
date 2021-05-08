@@ -1,0 +1,114 @@
+<kendo-splitter orientation="horizontal" style="height: 100%">
+    <kendo-splitter-pane size="25%">
+        <div class="m-portlet m-portlet--full-height" style="box-shadow: none">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">{{ 'Thêm nhân sự vào nhóm' | translate }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="box p-3">
+                    <input [(ngModel)]="searchTerm" #search type="text" class="form-control" placeholder="Tìm kiếm ..." />
+                </div>
+                <div class="p-3">
+                    <kendo-treeview
+                        #treeviewGroupPermission
+                        [nodes]="parsedData"
+                        textField="groupName"
+                        kendoTreeViewExpandable
+                        kendoTreeViewSelectable
+                        kendoTreeViewHierarchyBinding
+                        childrenField="childrens"
+                        [expandBy]="'key'"
+                        [(expandedKeys)]="expandedKeys"
+                        (nodeClick)="treeClick($event)"
+                    >
+                        <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                            <span class="mr-2 fa fa-users"></span>
+                            {{ dataItem.groupName }}
+                        </ng-template>
+                    </kendo-treeview>
+                </div>
+            </div>
+        </div>
+    </kendo-splitter-pane>
+    <kendo-splitter-pane>
+        <div class="m-portlet m-portlet--full-height mb-0">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">{{ groupNameSeleced }}</h3>
+                    </div>
+                </div>
+                <div class="m-portlet__head-tools">
+                    <ul class="m-portlet__nav">
+                        <li class="m-portlet__nav-item">
+                            <button class="btn_custom btn_add" (click)="showFormAddUserToGroupPermission()">
+                                <div [innerHTML]="'plus.svg' | vnuIcon | safeHtml: 'html'"></div>
+                                <span class="text">{{ 'Thêm người dùng vào nhóm' | translate }}</span>
+                            </button>
+                        </li>
+                        <li class="m-portlet__nav-item">
+                            <button class="btn_custom btn_remove" (click)="removeSelectedHandler()">
+                                <div [innerHTML]="'trash.svg' | vnuIcon | safeHtml: 'html'"></div>
+                                <span class="text">{{ 'BTN.DELETE' | translate }}</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeight }">
+                    <kendo-grid
+                        [data]="gridView$ | async"
+                        [pageSize]="gridState.take"
+                        [skip]="gridState.skip"
+                        [pageable]="{
+                            buttonCount: 5,
+                            pageSizes: [10, 20, 50],
+                            previousNext: true
+                        }"
+                        [resizable]="true"
+                        [columnMenu]="false"
+                        [sortable]="true"
+                        [sort]="gridState.sort"
+                        [style.height]="'100%'"
+                        [selectable]="true"
+                        kendoGridSelectBy="id"
+                        [selectedKeys]="selectionIds"
+                        (dataStateChange)="onStateChange($event)"
+                    >
+                        <kendo-grid-checkbox-column width="45" [columnMenu]="false" showSelectAll="true"> </kendo-grid-checkbox-column>
+                        <kendo-grid-column width="90" [columnMenu]="false" class="text-center">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <a href="javascript:void(0)" (click)="removeHandler(dataItem)" class="btn_custom btn_remove">
+                                    {{ 'BTN.DELETE' | translate }}
+                                </a>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <div class="text-center">
+                                    {{ rowIndex + 1 }}
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="userName" [title]="'LB.HRM.USERNAME' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="firstName" [title]="'LB.HRM.HO_DEM' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="lastName" [title]="'LB.HRM.TEN' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="email" [title]="'LB.HRM.EMAIL' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="mobileNumber" [title]="'LB.HRM.SO_DIEN_THOAI' | translate"> </kendo-grid-column>
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </kendo-splitter-pane>
+</kendo-splitter>
+
+<div class="k-overlay" *ngIf="opened"></div>
+<div class="wrapper form-layouts form-layouts-popup">
+    <div kendoWindowContainer></div>
+</div>

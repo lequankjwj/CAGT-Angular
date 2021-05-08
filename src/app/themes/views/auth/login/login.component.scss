@@ -1,0 +1,158 @@
+.background {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: -999;
+}
+
+.logo-top {
+    .logo-hd {
+        text-align: center;
+        margin-bottom: 30px;
+
+        .name-hd {
+            text-align: center;
+            padding: 0;
+
+            h1 {
+                color: #444;
+                font-size: 120%;
+                line-height: 42px;
+                margin: 0;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+.name-lg {
+    text-align: center;
+    padding: 10px 0 10px 0;
+    font-size: 150%;
+    color: #095f90;
+}
+
+.form-login {
+    width: 100%;
+    border-radius: 0 0 5px 5px;
+}
+
+.login_forget_password:hover {
+    color: #1869b3;
+    text-decoration: none !important;
+}
+
+.form-login .form-control {
+    padding: 0.55rem 1rem;
+    border-radius: 4px;
+}
+
+.m-page--fluid app-auth,
+.m-page--fluid app-auth .m-grid,
+.m-grid.m-grid--hor.m-grid--root.m-page,
+.m-grid.m-grid--hor:not(.m-grid--desktop):not(.m-grid--desktop-and-tablet):not(.m-grid--tablet):not(.m-grid--tablet-and-mobile):not(.m-grid--mobile).m-grid--root {
+    height: 100%;
+}
+
+.wapper-login {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .div-login {
+        width: 320px;
+        padding: 30px;
+    }
+
+    .div-content {
+        width: calc(100% - 320px);
+        height: 100%;
+        padding: 50px;
+        background: rgba(250, 251, 254, 0.4);
+        min-height: 400px;
+
+        .content {
+            line-height: 160%;
+        }
+
+        .title-login {
+            font-size: 20px;
+            font-family: 'Roboto';
+            color: rgb(0, 128, 60);
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 56px;
+        }
+    }
+
+    .div-noti {
+        .content {
+            .step {
+                color: #00803c;
+                font-weight: 500;
+            }
+
+            .stepbtn {
+                color: rgb(24, 143, 255);
+            }
+        }
+    }
+
+    input.m-input.form-control {
+        height: 45px;
+    }
+
+    .btn-login {
+        border-radius: 4px;
+        background-color: rgb(0, 128, 60);
+        width: 100%;
+        height: 45px;
+        text-transform: uppercase;
+        border: none;
+        margin-top: 1.2rem;
+        color: white;
+    }
+
+    .login_forsso {
+        border-radius: 4px;
+        background-image: linear-gradient(90deg, rgb(84, 187, 81) 0%, rgb(61, 184, 127) 100%);
+        width: 100%;
+        height: 45px;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .login_forhrm {
+        border-radius: 4px;
+        background-color: rgb(24, 143, 255);
+        width: 100%;
+        height: 45px;
+        text-transform: uppercase;
+        border: none;
+        margin-top: 30px;
+        cursor: pointer;
+        color: #fff;
+    }
+}
+
+@media (max-width: 767px) {
+    .wapper-login {
+        flex-direction: column;
+
+        .div-login {
+            width: 100%;
+        }
+
+        .div-content {
+            width: 100%;
+            min-height: auto;
+        }
+    }
+}

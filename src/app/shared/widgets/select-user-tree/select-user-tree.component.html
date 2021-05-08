@@ -1,0 +1,19 @@
+<nz-tree-select
+    style="width: 100%"
+    [(ngModel)]="value"
+    [nzNodes]="treeCoQuans"
+    [nzMaxTagCount]="5"
+    [nzExpandedKeys]="expandKeys"
+    (ngModelChange)="onChange($event)"
+    [nzDropdownStyle]="{ 'max-height': '350px' }"
+    nzVirtualHeight="300px"
+    [nzHideUnMatched]="true"
+    [nzMultiple]="isMultiple"
+    [nzCheckable]="isMultiple"
+    [nzDropdownMatchSelectWidth]="true"
+    [nzAsyncData]="true"
+    [nzPlaceHolder]="placeholder"
+    [nzDisabled]="isDisabled"
+    nzShowSearch
+>
+</nz-tree-select>

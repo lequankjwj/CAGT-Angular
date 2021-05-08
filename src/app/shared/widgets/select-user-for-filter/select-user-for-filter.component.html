@@ -1,0 +1,198 @@
+<div class="input-group select-user">
+    <nz-select
+        nzShowSearch
+        nzAllowClear
+        [nzPlaceHolder]="placeholder"
+        [(ngModel)]="itemNhanSuDropdownSelected"
+        (ngModelChange)="onChangeModel($event)"
+        [nzMode]="mode"
+    >
+        <ng-container *ngFor="let item of nhanSuCoQuanChucVus">
+            <nz-option nzCustomContent [nzLabel]="item.hoDem + ' ' + item.ten" [nzValue]="item.nhanSuId">
+                <b class="content-primary">{{ item.hoDem + ' ' + item.ten }}</b>
+                <p class="mb-0">|__ {{ item.tenCoQuan }}</p>
+            </nz-option>
+        </ng-container>
+    </nz-select>
+    <div class="input-group-append btn-user">
+        <button class="btn btn-light" type="button" (click)="openUserList(itemListUserForFilter)">
+            <div [innerHTML]="'zoom-minus.svg' | vnuIcon | safeHtml: 'html'"></div>
+        </button>
+    </div>
+</div>
+
+<ng-template #itemListUserForFilter let-win>
+    <div class="m-portlet">
+        <div class="m-portlet__body list-user">
+            <div class="p-3 d-flex justify-content-between align-items-center">
+                <p class="mb-0">
+                    <strong>Hướng dẫn chọn</strong>: Để chọn người dùng bạn vui lòng check vào các ô vuông bên dưới sau đó bấm nút
+                    <strong class="text-info">Chọn</strong>
+                </p>
+                <div class="text-right" style="width: 200px">
+                    <button class="btn_custom btn_add" (click)="selectedNhanSu()" *ngIf="mode !== 'default'">
+                        <div [innerHTML]="'plus.svg' | vnuIcon | safeHtml: 'html'"></div>
+                        <span class="text">{{ 'BTN.SELECT' | translate }}</span>
+                    </button>
+                    <button class="btn_custom btn_remove ml-1" (click)="cancel()">
+                        <div [innerHTML]="'close.svg' | vnuIcon | safeHtml: 'html'"></div>
+                        <span class="text">{{ 'BTN.CLOSE' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+            <kendo-splitter orientation="vertical">
+                <kendo-splitter-pane>
+                    <kendo-splitter>
+                        <kendo-splitter-pane [collapsible]="true" size="30%">
+                            <div style="overflow: scroll" [ngStyle]="{ 'height.px': pageHeightTree }">
+                                <div class="box-search-body p-3">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        [(ngModel)]="searchValue"
+                                        #category
+                                        (keyup)="onkeyup(category.value)"
+                                        [placeholder]="'LB.SEARCH' | translate"
+                                    />
+                                </div>
+                                <kendo-treeview
+                                    class="tree-user"
+                                    [nodes]="parsedData"
+                                    kendoTreeViewExpandable
+                                    kendoTreeViewHierarchyBinding
+                                    childrenField="childrens"
+                                    [expandBy]="'coQuanId'"
+                                    [expandedKeys]="expandKey"
+                                    (nodeClick)="treeClick($event)"
+                                >
+                                    <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                        {{ dataItem.tenCoQuan }}
+                                        <ng-container *ngIf="dataItem.count > 0">[{{ dataItem.count }}] </ng-container>
+                                    </ng-template>
+                                </kendo-treeview>
+                            </div>
+                        </kendo-splitter-pane>
+                        <kendo-splitter-pane>
+                            <div>
+                                <div class="box-search-body row p-3">
+                                    <div class="col-sm-6">
+                                        <asc-select
+                                            [modeOfDropDowList]="dropdownListEnum.DOI_TUONG_DANH_GIA"
+                                            [placeHolder]="'Chọn đối tượng đánh giá' | translate"
+                                            [formControl]="doiTuongDanhGiaControl"
+                                        >
+                                        </asc-select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="m-input-icon m-input-icon--left m-input-icon--right">
+                                            <input
+                                                type="text"
+                                                class="form-control m-input"
+                                                [placeholder]="'LB.SEARCH_PLACEHOLDER' | translate"
+                                                [formControl]="searchControl"
+                                            />
+                                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                                <span>
+                                                    <i class="la la-search"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeightGrid }">
+                                    <kendo-grid
+                                        [data]="gridViewUser$ | async"
+                                        [resizable]="true"
+                                        [columnMenu]="true"
+                                        [sortable]="true"
+                                        [pageable]="pageConfig"
+                                        [pageSize]="gridState.take"
+                                        [skip]="gridState.skip"
+                                        (dataStateChange)="onStateChange($event)"
+                                        [sort]="gridState.sort"
+                                        [selectable]="true"
+                                        [style.height]="'100%'"
+                                        kendoGridSelectBy="nhanSuId"
+                                        [selectedKeys]="selectionIds"
+                                        (selectionChange)="selectRow($event)"
+                                    >
+                                        <ng-container *ngIf="mode === 'default'; else multiMode">
+                                            <kendo-grid-checkbox-column width="100" [columnMenu]="false">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <a
+                                                        href="javascript:void(0)"
+                                                        (click)="selectedNhanSuSingle(dataItem)"
+                                                        class="btn btn-sm btn-outline-success m-btn m-btn--icon mr-1"
+                                                    >
+                                                        {{ 'BTN.SELECT' | translate }}
+                                                    </a>
+                                                </ng-template>
+                                            </kendo-grid-checkbox-column>
+                                        </ng-container>
+                                        <ng-template #multiMode>
+                                            <kendo-grid-checkbox-column showSelectAll="true" width="40" [columnMenu]="false">
+                                            </kendo-grid-checkbox-column>
+                                        </ng-template>
+                                        <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                <div class="text-center">
+                                                    {{ rowIndex + 1 }}
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="userName" [width]="150" [title]="'LB.USERNAME' | translate"  [columnMenu]="false">
+                                        </kendo-grid-column>
+                                        <kendo-grid-column
+                                            field="maNhanSu"
+                                            width="150"
+                                            [columnMenu]="false"
+                                            [title]="'LB.HRM.MA_NHAN_SU' | translate"
+                                        >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column
+                                            field="hoDem"
+                                            width="200"
+                                            [columnMenu]="false"
+                                            [title]="'LB.HRM.HO_DEM' | translate"
+                                        >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="ten" width="100" [columnMenu]="false" [title]="'LB.HRM.TEN' | translate">
+                                        </kendo-grid-column>
+                                        <kendo-grid-column
+                                            field="ngaySinh"
+                                            width="150"
+                                            [columnMenu]="false"
+                                            [title]="'LB.HRM.NGAY_SINH' | translate"
+                                        >
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{ dataItem.ngaySinh | date: 'dd/MM/yyyy' }}
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column
+                                            field="idGioiTinh"
+                                            width="85"
+                                            [columnMenu]="false"
+                                            [title]="'LB.GENDER' | translate"
+                                        >
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{ dataItem.tenGioiTinh }}
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column
+                                            field="tenCoQuan"
+                                            [columnMenu]="false"
+                                            [title]="'LB.HRM.CO_QUAN' | translate"
+                                            [sortable]="false"
+                                        >
+                                        </kendo-grid-column>
+                                    </kendo-grid>
+                                </div>
+                            </div>
+                        </kendo-splitter-pane>
+                    </kendo-splitter>
+                </kendo-splitter-pane>
+            </kendo-splitter>
+        </div>
+    </div>
+</ng-template>

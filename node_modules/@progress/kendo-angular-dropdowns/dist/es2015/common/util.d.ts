@@ -1,0 +1,96 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+/**
+ * @hidden
+ */
+export declare const isPresent: Function;
+/**
+ * @hidden
+ */
+export declare const isNumber: Function;
+/**
+ * @hidden
+ */
+export declare const guid: Function;
+/**
+ * @hidden
+ */
+export declare const combineStr: Function;
+/**
+ * @hidden
+ */
+export declare const isWindowAvailable: Function;
+/**
+ * @hidden
+ */
+export declare const isArray: Function;
+/**
+ * @hidden
+ */
+export declare const isObject: Function;
+/**
+ * @hidden
+ */
+export declare const isEmptyString: (value: any) => boolean;
+/**
+ * @hidden
+ */
+export declare const resolveValuesInArray: Function;
+/**
+ * @hidden
+ */
+export declare const validateComplexValues: Function;
+/**
+ * @hidden
+ */
+export declare const resolveAllValues: Function;
+/**
+ * @hidden
+ */
+export declare const isObjectArray: Function;
+/**
+ * @hidden
+ */
+export declare const selectedIndices: Function;
+/**
+ * @hidden
+ */
+export declare const getter: Function;
+/**
+ * @hidden
+ */
+export declare const resolveValue: Function;
+/**
+ * @hidden
+ */
+export declare const sameCharsOnly: Function;
+/**
+ * @hidden
+ */
+export declare const shuffleData: Function;
+/**
+ * @hidden
+ */
+export declare const matchText: Function;
+/**
+ * @hidden
+ */
+export declare const elementFromPoint: Function;
+/**
+ * @hidden
+ *
+ * Checks whether the passed object has all of the listed properties.
+ */
+export declare const hasProps: (obj: object, props: string[]) => boolean;
+/**
+ * @hidden
+ *
+ * Checks whether an element is untouched by looking for the ng-untouched css class
+ */
+export declare const isUntouched: (element: HTMLElement) => boolean;
+/**
+ * @hidden
+ */
+export declare const noop: (_: any) => void;

@@ -1,0 +1,31 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+import { Injectable } from '@angular/core';
+import { Subject, Subscription } from "rxjs";
+import { throttleTime } from 'rxjs/operators';
+/**
+ * @hidden
+ */
+var ResizeService = /** @class */ (function () {
+    function ResizeService() {
+        this.resizeSubscription = new Subscription(function () { });
+        this.dispatcher = new Subject();
+        // tslint:disable-next-line:member-ordering
+        this.changes = this.dispatcher.asObservable().pipe(throttleTime(100));
+    }
+    ResizeService.prototype.connect = function (resizes) {
+        this.resizeSubscription.add(resizes.subscribe(this.dispatcher));
+    };
+    ResizeService.prototype.destroy = function () {
+        if (this.resizeSubscription) {
+            this.resizeSubscription.unsubscribe();
+        }
+    };
+    ResizeService.decorators = [
+        { type: Injectable },
+    ];
+    return ResizeService;
+}());
+export { ResizeService };

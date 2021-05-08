@@ -1,0 +1,177 @@
+<div class="m-portlet m-portlet--mobile mb-0">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption m-portlet__head-caption-title">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    {{ tabName }}
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <div class="p-3">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label>{{ 'LB.HRM.MA_NHAN_SU' | translate }}</label>
+                        <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="modelSearch.maNhanSu" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label>{{ 'LB.HRM.HO_TEN' | translate }} </label>
+                        <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="modelSearch.hoTen" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label>{{ 'LB.HRM.CO_QUAN' | translate }} </label>
+                        <app-select-user-tree [placeholder]="'Chọn' | translate"></app-select-user-tree>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label> {{ 'LB.HRM.CHUC_VU' | translate }} </label>
+                        <div>
+                            <asc-select
+                                [modeOfDropDowList]="dropdownListEnum.CHUC_VU"
+                                [(ngModel)]="modelSearch.chucVuId"
+                                [placeHolder]="'LB.SELECT' | translate"
+                            ></asc-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label> {{ 'LB.STATUS' | translate }} </label>
+                        <div>
+                            <nz-select nzAllowClear nzPlaceHolder="Chọn" [(ngModel)]="modelSearch.trangThaiDongBo">
+                                <nz-option
+                                    *ngFor="let item of trangThaiDongBoNhanSus"
+                                    [nzValue]="item"
+                                    [nzLabel]="trangThaiDongBoNhanSuDisplay[item]"
+                                ></nz-option>
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group m-form__group">
+                        <label>&nbsp;</label>
+                        <div class="btn-actions">
+                            <button type="button" class="btn_custom btn_add w-100" (click)="onSearchChange()">
+                                <span class="text">{{ 'BTN.SEARCH' | translate }} </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-search-body p-3" style="border-top: 1px solid #dadce0">
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <!--                    <div class="m-checkbox-inline text-right">-->
+                    <!--                        <label class="m-checkbox m-checkbox&#45;&#45;bold m-checkbox&#45;&#45;state-success">-->
+                    <!--                            <input type="checkbox" />-->
+                    <!--                            Xóa quyền cũ-->
+                    <!--                            <span></span>-->
+                    <!--                        </label>-->
+                    <!--                        <label class="m-checkbox m-checkbox&#45;&#45;bold m-checkbox&#45;&#45;state-success">-->
+                    <!--                            <input type="checkbox" />-->
+                    <!--                            Thừa kế các quyền có trong nhóm đồng bộ-->
+                    <!--                            <span></span>-->
+                    <!--                        </label>-->
+                    <!--                    </div>-->
+                </div>
+                <div class="col-md-3">
+                    <asc-select
+                        [modeOfDropDowList]="dropdownListEnum.GROUP_USER"
+                        [placeHolder]="'LB.SELECT' | translate"
+                        [(ngModel)]="groupSelectedId"
+                    >
+                    </asc-select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn_custom btn_remove w-100" (click)="onSyncUserFromNhanSu()" [disabled]="userSelecteds.length < 1">
+                        <div [innerHTML]="'update.svg' | vnuIcon | safeHtml: 'html'"></div>
+                        <span class="text">{{ 'BTN.SYNC' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeight }">
+            <kendo-grid
+                [data]="gridViewNhanSu"
+                [loading]="isLoading"
+                [pageSize]="gridState.take"
+                [skip]="gridState.skip"
+                [pageable]="pageConfig"
+                [resizable]="true"
+                [columnMenu]="true"
+                [sortable]="true"
+                kendoGridSelectBy="idNhanSu"
+                [selectedKeys]="selectionIds"
+                [selectable]="{ enabled: true, checkboxOnly: true }"
+                [sort]="gridState.sort"
+                [style.height]="'100%'"
+                (dataStateChange)="onStateChange($event)"
+            >
+                <kendo-grid-checkbox-column width="40" [columnMenu]="false" showSelectAll="true">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <input class="k-checkbox" [kendoGridSelectionCheckbox]="rowIndex" (change)="onSelectedUser(dataItem, $event)" />
+                        <label class="k-checkbox-label"></label>
+                    </ng-template>
+
+                    <ng-template kendoGridHeaderTemplate>
+                        <input
+                            class="k-checkbox"
+                            kendoGridSelectAllCheckbox
+                            [state]="selectAllState"
+                            (selectAllChange)="onSelectAllChange($event)"
+                            id="selectAllCheckboxId"
+                        />
+                        <label class="k-checkbox-label" for="selectAllCheckboxId"></label>
+                    </ng-template>
+                </kendo-grid-checkbox-column>
+
+                <kendo-grid-column [title]="'LB.STT' | translate" width="50" [columnMenu]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="text-center">
+                            {{ rowIndex + 1 }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column
+                    [columnMenu]="false" field="maNhanSu"
+                    [title]="'LB.HRM.MA_NHAN_SU' | translate"
+                    class="font-weight-bold"
+                    width="100">
+                </kendo-grid-column>
+                <kendo-grid-column [columnMenu]="false" field="userName" [title]="'UserName' | translate" width="150"> </kendo-grid-column>
+                <kendo-grid-column [columnMenu]="false" field="hoDem" [title]="'LB.HRM.HO_TEN' | translate" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column [columnMenu]="false" field="ten" [title]="'LB.HRM.TEN' | translate" width="100"> </kendo-grid-column>
+                <kendo-grid-column
+                    [columnMenu]="false"
+                    field="tenChucVu"
+                    [title]="'LB.HRM.CHUC_VU' | translate"
+                    width="200"
+                    [sortable]="false"
+                >
+                </kendo-grid-column>
+                <kendo-grid-column
+                    [columnMenu]="false"
+                    field="tenCoQuan"
+                    [title]="'LB.HRM.CO_QUAN' | translate"
+                    width="250"
+                    [sortable]="false"
+                >
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<div class="k-overlay" *ngIf="opened"></div>
+<div class="wrapper form-layouts">
+    <div kendoWindowContainer></div>
+</div>

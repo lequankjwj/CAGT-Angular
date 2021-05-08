@@ -1,0 +1,105 @@
+<div class="m-portlet m-portlet--mobile mb-0">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption m-portlet__head-caption-title">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    {{ tabName }}
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <button class="btn_custom btn_add" (click)="logoutAllDeviceSelectedHandler()">
+                        <div [innerHTML]="'sign-out.svg' | vnuIcon | safeHtml: 'html'"></div>
+                        <span class="text">{{ 'Đăng xuất thiết bị' | translate }}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+
+        <div kendoTooltip showOn="none" [tooltipTemplate]="template" filter=".k-grid td" (mouseover)="showTooltip($event)">
+            <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeight }">
+                <kendo-grid
+                    [data]="gridView$ | async"
+                    [pageSize]="gridState.take"
+                    [skip]="gridState.skip"
+                    [loading]="isLoading"
+                    [pageable]="pageConfig"
+                    [resizable]="true"
+                    [columnMenu]="false"
+                    [sortable]="true"
+                    [sort]="gridState.sort"
+                    [style.height]="'100%'"
+                    [selectable]="true"
+                    kendoGridSelectBy="sessionCode"
+                    [selectedKeys]="selectionIds"
+                    (dataStateChange)="onStateChange($event)"
+                >
+                    <kendo-grid-checkbox-column showSelectAll="true" width="40" [columnMenu]="false"> </kendo-grid-checkbox-column>
+                    <kendo-grid-column [title]="'Đăng xuất' | translate" class="text-center" width="100" [columnMenu]="false">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div class="text-center">
+                                <ng-container *ngIf="dataItem.logoutTime == null">
+                                    <button nz-button class="btn-light text-center" style="margin: auto" (click)="logoutHandler(dataItem)">
+                                        <div [innerHTML]="'sign-out.svg' | vnuIcon | safeHtml: 'html'"></div>
+                                    </button>
+                                </ng-container>
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div class="text-center">
+                                {{ rowIndex + 1 }}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="ipAddress" [title]="'IP' | translate" width="150"> </kendo-grid-column>
+                    <kendo-grid-column field="browserName" [title]="'Trình duyệt' | translate">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <b>{{ dataItem?.browserName }} - {{ dataItem?.browserVersion }}</b>
+                            <p><small>{{ dataItem?.osName }} - {{ dataItem?.osVersion }}</small></p>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="type" [title]="'Type' | translate" width="100"> </kendo-grid-column>
+                    <kendo-grid-column field="loggedTime" [title]="'Time Login' | translate" width="120">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <ng-container *ngIf="dataItem.loggedTime">
+                                <div class="text-center text-success">
+                                    {{ dataItem.loggedTime * 1000 | date: 'dd/MM/yyyy' }} <br />
+                                    {{ dataItem.loggedTime * 1000 | date: 'hh:mm:ss' }}
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="logoutTime" [title]="'Time Logout' | translate" width="120">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <ng-container *ngIf="dataItem.logoutTime">
+                                <div class="text-center text-danger">
+                                    {{ dataItem.logoutTime * 1000 | date: 'dd/MM/yyyy' }} <br />
+                                    {{ dataItem.logoutTime * 1000 | date: 'hh:mm:ss' }}
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column [title]="'Thiết bị hiện tại' | translate" width="150">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <ng-container *ngIf="dataItem.sessionCode === keyLogin">
+                                <div class="text-center text-success">
+                                    <i class="la la-check-circle"></i>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

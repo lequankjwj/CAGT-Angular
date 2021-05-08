@@ -1,0 +1,25 @@
+/**-----------------------------------------------------------------------------------------
+* Copyright © 2020 Progress Software Corporation. All rights reserved.
+* Licensed under commercial license. See LICENSE.md in the project root for more information
+*-------------------------------------------------------------------------------------------*/
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var draggable_directive_1 = require("./draggable.directive");
+var common_1 = require("@angular/common");
+/**
+ * @hidden
+ */
+var DraggableModule = /** @class */ (function () {
+    function DraggableModule() {
+    }
+    DraggableModule.decorators = [
+        { type: core_1.NgModule, args: [{
+                    declarations: [draggable_directive_1.DraggableDirective],
+                    exports: [draggable_directive_1.DraggableDirective],
+                    imports: [common_1.CommonModule]
+                },] },
+    ];
+    return DraggableModule;
+}());
+exports.DraggableModule = DraggableModule;

@@ -1,0 +1,119 @@
+.dashboard_wapper .m-widget4 .m-widget4__item .m-widget4__ext {
+    white-space: nowrap;
+}
+
+.dashboard_wapper .m-widget14 .m-widget14__legend .m-widget14__legend-text {
+    margin-bottom: 5px;
+}
+
+.dashboard_wapper .m-widget14 .m-widget14__legend .progress {
+    height: 10px;
+}
+
+.m-widget4 .m-widget4__item .m-widget4__ext .m-widget4__number {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.m-widge-custome {
+    background-color: #5075e4;
+}
+
+.m-widget28 .m-widget28__pic {
+    min-height: 80px;
+}
+
+.m-portlet .m-portlet__head {
+    border-bottom: 0px solid #5075e4;
+}
+
+.circular-chart {
+    display: block;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.circular-chart.orange .circle {
+    stroke: #ff9f00;
+}
+
+.circular-chart.green .circle {
+    stroke: #4cc790;
+}
+
+.circular-chart.blue .circle {
+    stroke: #3c9ee5;
+}
+
+.circular-chart.red .circle {
+    stroke: #f4516c;
+}
+
+.percentage {
+    fill: #666;
+    font-family: sans-serif;
+    font-size: 0.5em;
+    text-anchor: middle;
+}
+
+.tooltip {
+    visibility: hidden;
+    z-index: 1;
+    opacity: 0.4;
+    width: 100%;
+    padding: 0px 20px;
+    background: #333;
+    color: #e086d3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 9px;
+    font: 16px;
+    transform: translateY(9px);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 3px rgba(56, 54, 54, 0.86);
+}
+
+.tooltip::after {
+    content: ' ';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 12.5px 0 12.5px;
+    border-color: #333 transparent transparent transparent;
+    position: absolute;
+    left: 50%;
+}
+.body:hover .tooltip {
+    visibility: visible;
+    transform: translateY(-10px);
+    opacity: 1;
+    transition: 0.3s linear;
+    animation: odsoky 1s ease-in-out infinite alternate;
+}
+@keyframes odsoky {
+    0% {
+        transform: translateY(6px);
+    }
+
+    100% {
+        transform: translateY(1px);
+    }
+}

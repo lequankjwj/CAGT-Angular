@@ -1,0 +1,116 @@
+<kendo-splitter orientation="horizontal" style="height: 100%">
+    <kendo-splitter-pane size="25%">
+        <div style="overflow: scroll" [ngStyle]="{ 'height.px': pageHeightTree }">
+            <div class="p-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchValue"
+                    #category
+                    (keyup)="onkeyup(category.value)"
+                    [placeholder]="'LB.SEARCH' | translate"
+                />
+            </div>
+            <kendo-treeview
+                class="tree-user"
+                [nodes]="parsedData"
+                kendoTreeViewExpandable
+                kendoTreeViewSelectable
+                kendoTreeViewHierarchyBinding
+                childrenField="childrens"
+                [expandBy]="'coQuanId'"
+                [expandedKeys]="expandKey"
+                (nodeClick)="treeClick($event)"
+            >
+                <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                    {{ dataItem.tenCoQuan }}
+                    <ng-container *ngIf="dataItem.count > 0">[{{ dataItem.count }}] </ng-container>
+                </ng-template>
+            </kendo-treeview>
+        </div>
+    </kendo-splitter-pane>
+    <kendo-splitter-pane size="75%">
+        <div class="m-portlet m-portlet--full-height mb-0">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-input-icon m-input-icon--left m-input-icon--right dropdown-search-advance">
+                        <input
+                            type="text"
+                            class="form-control m-input"
+                            placeholder="{{ 'BTN.SEARCH' | translate }}"
+                            [formControl]="searchControl"
+                            (change)="onSearchChange()"
+                            (keydown.enter)="onSearchChange()"
+                        />
+                        <span class="m-input-icon__icon m-input-icon__icon--left">
+                            <span>
+                                <i class="la la-search"></i>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="m-portlet__head-tools">
+                    <ul class="m-portlet__nav">
+                        <li class="m-portlet__nav-item" style="width: 300px">
+                            <app-tree-select-group-permission
+                                class="text-left"
+                                [isMultiple]="false"
+                                [placeholder]="'LB.SELECT' | translate"
+                                [formControl]="groupPermissionControl"
+                            >
+                            </app-tree-select-group-permission>
+                        </li>
+                        <li class="m-portlet__nav-item">
+                            <a href="javascript:void(0)" (click)="onSubmit()" class="btn_custom btn_add">
+                                <span class="text">
+                                    {{ 'BTN.SAVE' | translate }}
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="grid-wrapper" [ngStyle]="{ 'height.px': pageHeightGrid }">
+                    <kendo-grid
+                        [data]="gridView$ | async"
+                        [pageSize]="gridState.take"
+                        [skip]="gridState.skip"
+                        [pageable]="{
+                            buttonCount: 5,
+                            pageSizes: [10, 20, 50],
+                            previousNext: true
+                        }"
+                        [resizable]="true"
+                        [columnMenu]="false"
+                        [sortable]="true"
+                        [sort]="gridState.sort"
+                        [style.height]="'100%'"
+                        [selectable]="true"
+                        kendoGridSelectBy="id"
+                        [selectedKeys]="selectionIds"
+                        (dataStateChange)="onStateChange($event)"
+                    >
+                        <kendo-grid-checkbox-column width="45" [columnMenu]="false" showSelectAll="true"> </kendo-grid-checkbox-column>
+                        <kendo-grid-column [title]="'LB.STT' | translate" width="60" [columnMenu]="false">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <div class="text-center">
+                                    {{ rowIndex + 1 }}
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="userName" [title]="'LB.HRM.USERNAME' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="lastName" [title]="'LB.HRM.HO_TEN' | translate" [columnMenu]="false">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <div>{{ dataItem?.firstName }} {{ dataItem?.lastName }}</div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="email" [title]="'LB.HRM.EMAIL' | translate"> </kendo-grid-column>
+                        <kendo-grid-column field="mobileNumber" [title]="'LB.HRM.SO_DIEN_THOAI' | translate"> </kendo-grid-column>
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </kendo-splitter-pane>
+</kendo-splitter>

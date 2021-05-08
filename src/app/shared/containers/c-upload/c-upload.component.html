@@ -1,0 +1,21 @@
+<nz-upload
+    nzName="formFiles"
+    [nzType]="isDisabled ? '' : 'drag'"
+    [nzLimit]="5"
+    [(nzFileList)]="fileList"
+    [nzAction]="uploadUrl"
+    [nzMultiple]="multiple"
+    (nzChange)="changeFile($event)"
+    [nzShowUploadList]="{
+        showDownloadIcon: false,
+        showRemoveIcon: !isDisabled
+    }"
+    [nzPreview]="handlePreview"
+>
+    <ng-container *ngIf="!isDisabled">
+        <button type="button" nz-button>
+            <i nz-icon nzType="upload"></i> {{ placeholder }}
+        </button>
+    </ng-container>
+</nz-upload>
+<!--[nzPreview]="handlePreview"-->
